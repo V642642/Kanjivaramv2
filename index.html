@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kanjeevaram — Kanjeevaram Silks</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C8992A;
+    --gold-light: #E8C060;
+    --gold-pale: #F5E8C0;
+    --crimson: #8B1A1A;
+    --crimson-deep: #5C0F0F;
+    --cream: #FAF6EE;
+    --ivory: #FDF9F2;
+    --dark: #1A0A0A;
+    --text: #2C1810;
+    --text-muted: #6B4C3B;
+    --border: rgba(200,153,42,0.25);
+    --shadow: 0 8px 40px rgba(139,26,26,0.12);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family:'Jost',sans-serif; background:var(--ivory); color:var(--text); overflow-x:hidden; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:var(--cream); }
+  ::-webkit-scrollbar-thumb { background:var(--gold); border-radius:3px; }
+
+  /* ── LOADER ── */
+  #loader {
+    position:fixed; inset:0; z-index:9999; background:var(--dark);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition:opacity .7s ease;
+  }
+  #loader.fade-out { opacity:0; pointer-events:none; }
+  .loader-text { font-family:'Cinzel',serif; color:var(--gold); font-size:2.8rem; letter-spacing:.3em; animation:pulse 1.5s ease infinite; }
+  .loader-sub { color:var(--gold-light); font-size:.75rem; letter-spacing:.4em; margin-top:.5rem; opacity:.7; }
+  .loader-bar { width:120px; height:1px; background:rgba(200,153,42,.2); margin-top:2rem; position:relative; overflow:hidden; }
+  .loader-bar::after { content:''; position:absolute; left:-100%; top:0; width:100%; height:100%; background:var(--gold); animation:loading 1.2s ease infinite; }
+  @keyframes loading { to { left:100%; } }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    padding:1.2rem 4vw; display:flex; align-items:center; justify-content:space-between;
+    transition:all .4s ease;
+  }
+  nav.scrolled { background:rgba(26,10,10,.96); backdrop-filter:blur(12px); padding:.9rem 4vw; box-shadow:0 2px 30px rgba(0,0,0,.3); }
+  .nav-logo { font-family:'Cinzel',serif; font-size:1.6rem; color:var(--gold); letter-spacing:.15em; cursor:pointer; text-decoration:none; }
+  .nav-logo span { color:var(--gold-light); }
+  .nav-links { display:flex; gap:2.5rem; list-style:none; }
+  .nav-links a { color:rgba(255,255,255,.8); text-decoration:none; font-size:.8rem; letter-spacing:.2em; text-transform:uppercase; transition:color .3s; }
+  .nav-links a:hover { color:var(--gold); }
+  .nav-right { display:flex; align-items:center; gap:1.2rem; }
+  .cart-btn {
+    position:relative; background:none; border:1px solid var(--gold); color:var(--gold);
+    padding:.5rem 1.2rem; font-family:'Jost'; font-size:.75rem; letter-spacing:.2em;
+    text-transform:uppercase; cursor:pointer; transition:all .3s; border-radius:2px;
+  }
+  .cart-btn:hover { background:var(--gold); color:var(--dark); }
+  .cart-count {
+    position:absolute; top:-8px; right:-8px; background:var(--crimson); color:#fff;
+    width:18px; height:18px; border-radius:50%; font-size:.65rem; display:flex; align-items:center; justify-content:center;
+    font-weight:600;
+  }
+  .menu-toggle { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:.4rem; }
+  .menu-toggle span { width:24px; height:1.5px; background:var(--gold); display:block; transition:all .3s; }
+
+  /* ── PAGES ── */
+  .page { display:none; min-height:100vh; }
+  .page.active { display:block; }
+
+  /* ══════════════════════════════════
+     HOME PAGE
+  ══════════════════════════════════ */
+
+  /* Hero */
+  .hero {
+    min-height:100vh; position:relative; display:flex; align-items:center; overflow:hidden;
+    background: linear-gradient(135deg, #1A0A0A 0%, #3D1414 40%, #5C1E1E 70%, #2A0808 100%);
+  }
+  .hero-bg-pattern {
+    position:absolute; inset:0; opacity:.06;
+    background-image: repeating-linear-gradient(45deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 50%);
+    background-size:20px 20px;
+  }
+  .hero-orb {
+    position:absolute; width:600px; height:600px; border-radius:50%;
+    background:radial-gradient(circle, rgba(200,153,42,.15) 0%, transparent 70%);
+    right:-100px; top:50%; transform:translateY(-50%);
+    animation:float 8s ease-in-out infinite;
+  }
+  .hero-orb2 {
+    position:absolute; width:400px; height:400px; border-radius:50%;
+    background:radial-gradient(circle, rgba(139,26,26,.2) 0%, transparent 70%);
+    left:-80px; bottom:-100px;
+    animation:float 10s ease-in-out infinite reverse;
+  }
+  @keyframes float { 0%,100%{transform:translateY(-50%) scale(1)} 50%{transform:translateY(-52%) scale(1.05)} }
+  .hero-content { position:relative; z-index:2; padding:0 6vw; max-width:700px; }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:.6rem;
+    border:1px solid rgba(200,153,42,.4); padding:.4rem 1.2rem; border-radius:30px;
+    margin-bottom:2rem; animation:fadeInUp .8s ease both;
+  }
+  .hero-badge span { font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); }
+  .hero-badge::before { content:'✦'; color:var(--gold); font-size:.6rem; }
+  .hero-title {
+    font-family:'Cormorant Garamond',serif; font-size:clamp(3rem,7vw,5.5rem); font-weight:300;
+    line-height:1.05; color:#fff; margin-bottom:1.5rem; animation:fadeInUp .8s .2s ease both;
+  }
+  .hero-title em { font-style:italic; color:var(--gold-light); }
+  .hero-title strong { display:block; font-weight:600; }
+  .hero-sub { color:rgba(255,255,255,.6); font-size:1rem; line-height:1.8; margin-bottom:3rem; max-width:450px; animation:fadeInUp .8s .4s ease both; letter-spacing:.03em; }
+  .hero-actions { display:flex; gap:1.2rem; flex-wrap:wrap; animation:fadeInUp .8s .6s ease both; }
+  .btn-primary {
+    padding:1rem 2.5rem; background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    color:var(--dark); font-family:'Jost'; font-size:.8rem; font-weight:500;
+    letter-spacing:.2em; text-transform:uppercase; border:none; cursor:pointer;
+    border-radius:2px; transition:all .3s; text-decoration:none; display:inline-flex; align-items:center; gap:.6rem;
+  }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(200,153,42,.4); }
+  .btn-outline {
+    padding:1rem 2.5rem; background:transparent; color:#fff;
+    font-family:'Jost'; font-size:.8rem; letter-spacing:.2em; text-transform:uppercase;
+    border:1px solid rgba(255,255,255,.3); cursor:pointer; border-radius:2px; transition:all .3s; text-decoration:none;
+  }
+  .btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+  .hero-stats {
+    position:absolute; bottom:4rem; right:6vw; display:flex; gap:3rem; z-index:2;
+    animation:fadeInUp .8s .8s ease both;
+  }
+  .stat { text-align:center; }
+  .stat-num { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:300; color:var(--gold); line-height:1; }
+  .stat-label { font-size:.65rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.5); margin-top:.3rem; }
+  .hero-scroll { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:.5rem; z-index:2; animation:bounce 2s ease infinite; }
+  .hero-scroll span { font-size:.65rem; letter-spacing:.3em; color:rgba(255,255,255,.4); text-transform:uppercase; }
+  .hero-scroll-line { width:1px; height:40px; background:linear-gradient(to bottom, var(--gold), transparent); }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+  /* Marquee */
+  .marquee-wrap { background:var(--gold); padding:.7rem 0; overflow:hidden; }
+  .marquee { display:flex; gap:3rem; animation:marquee 20s linear infinite; white-space:nowrap; }
+  .marquee span { font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--dark); font-weight:500; flex-shrink:0; }
+  .marquee span::before { content:'✦ '; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* Heritage Section */
+  .heritage { padding:8rem 6vw; background:var(--ivory); }
+  .section-tag { font-size:.7rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; display:flex; align-items:center; gap:.8rem; }
+  .section-tag::before { content:''; flex:none; width:40px; height:1px; background:var(--gold); }
+  .heritage-grid { display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; }
+  .heritage-text h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.2rem,4vw,3.5rem); font-weight:300; line-height:1.15; margin-bottom:1.5rem; color:var(--text); }
+  .heritage-text h2 em { font-style:italic; color:var(--crimson); }
+  .heritage-text p { color:var(--text-muted); line-height:1.9; font-size:.95rem; margin-bottom:1.2rem; }
+  .heritage-visual { position:relative; }
+  .heritage-card {
+    background:linear-gradient(135deg,var(--crimson-deep),var(--crimson));
+    border-radius:4px; padding:3rem; position:relative; overflow:hidden;
+  }
+  .heritage-card::before {
+    content:''; position:absolute; inset:0;
+    background:repeating-linear-gradient(45deg,rgba(200,153,42,.08) 0,rgba(200,153,42,.08) 1px,transparent 1px,transparent 12px);
+  }
+  .heritage-card-inner { position:relative; z-index:1; }
+  .saree-svg-main { width:100%; max-width:320px; display:block; margin:0 auto; }
+  .hc-badge { position:absolute; top:-1rem; right:-1rem; background:var(--gold); color:var(--dark); padding:.5rem 1rem; font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; font-weight:600; border-radius:2px; }
+
+  /* Featured Collection */
+  .featured { padding:7rem 5vw; background:var(--cream); }
+  .featured-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:4rem; flex-wrap:wrap; gap:1rem; }
+  .featured-header h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3rem); font-weight:300; color:var(--text); }
+  .featured-header h2 span { font-style:italic; color:var(--crimson); }
+  .view-all-link { font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); text-decoration:none; display:flex; align-items:center; gap:.5rem; border-bottom:1px solid var(--gold); padding-bottom:.2rem; transition:gap .3s; }
+  .view-all-link:hover { gap:.8rem; }
+  .products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2rem; }
+  .product-card {
+    background:#fff; border-radius:4px; overflow:hidden; cursor:pointer;
+    transition:transform .3s, box-shadow .3s; position:relative;
+    box-shadow:0 2px 15px rgba(0,0,0,.06);
+  }
+  .product-card:hover { transform:translateY(-6px); box-shadow:var(--shadow); }
+  .product-image {
+    height:340px; position:relative; overflow:hidden;
+  }
+  .product-image svg { width:100%; height:100%; }
+  .product-badge {
+    position:absolute; top:1rem; left:1rem; padding:.3rem .8rem;
+    font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; font-weight:600; border-radius:2px;
+  }
+  .badge-new { background:var(--crimson); color:#fff; }
+  .badge-bestseller { background:var(--gold); color:var(--dark); }
+  .badge-limited { background:var(--dark); color:var(--gold); }
+  .product-wishlist {
+    position:absolute; top:1rem; right:1rem; width:34px; height:34px;
+    background:rgba(255,255,255,.9); border:none; border-radius:50%; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; font-size:1rem;
+    transition:all .3s; opacity:0;
+  }
+  .product-card:hover .product-wishlist { opacity:1; }
+  .product-wishlist.liked { opacity:1; color:var(--crimson); }
+  .product-info { padding:1.4rem; }
+  .product-name { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:600; color:var(--text); margin-bottom:.3rem; }
+  .product-type { font-size:.72rem; letter-spacing:.15em; text-transform:uppercase; color:var(--text-muted); margin-bottom:.8rem; }
+  .product-footer { display:flex; align-items:center; justify-content:space-between; }
+  .product-price { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--crimson); font-weight:600; }
+  .product-price span { font-size:.85rem; color:var(--text-muted); text-decoration:line-through; margin-left:.4rem; font-family:'Jost'; }
+  .product-colors { display:flex; gap:.4rem; }
+  .color-dot { width:12px; height:12px; border-radius:50%; border:1.5px solid rgba(0,0,0,.1); }
+
+  /* Testimonials */
+  .testimonials { padding:7rem 5vw; background:linear-gradient(135deg,var(--dark) 0%,var(--crimson-deep) 100%); position:relative; overflow:hidden; }
+  .testimonials::before {
+    content:''; position:absolute; inset:0;
+    background:repeating-linear-gradient(-45deg,rgba(200,153,42,.04) 0,rgba(200,153,42,.04) 1px,transparent 1px,transparent 20px);
+  }
+  .testimonials-header { text-align:center; margin-bottom:4rem; position:relative; z-index:1; }
+  .testimonials-header h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3rem); font-weight:300; color:#fff; }
+  .testimonials-header h2 em { color:var(--gold-light); font-style:italic; }
+  .testi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2rem; position:relative; z-index:1; }
+  .testi-card { background:rgba(255,255,255,.06); border:1px solid rgba(200,153,42,.2); border-radius:4px; padding:2rem; backdrop-filter:blur(10px); }
+  .testi-stars { color:var(--gold); font-size:.9rem; margin-bottom:1rem; letter-spacing:.2rem; }
+  .testi-text { color:rgba(255,255,255,.8); font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-style:italic; line-height:1.7; margin-bottom:1.5rem; }
+  .testi-author { display:flex; align-items:center; gap:.8rem; }
+  .testi-avatar { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+  .testi-name { font-size:.85rem; color:#fff; font-weight:500; }
+  .testi-loc { font-size:.72rem; color:rgba(255,255,255,.4); letter-spacing:.1em; }
+
+  /* CTA Band */
+  .cta-band { padding:6rem 5vw; background:var(--cream); display:grid; grid-template-columns:1fr 1fr; gap:0; }
+  .cta-left { background:var(--gold); padding:4rem; display:flex; flex-direction:column; justify-content:center; }
+  .cta-left h3 { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:300; color:var(--dark); line-height:1.2; margin-bottom:1rem; }
+  .cta-left p { color:rgba(26,10,10,.7); line-height:1.8; margin-bottom:2rem; font-size:.9rem; }
+  .btn-dark { background:var(--dark); color:var(--gold); padding:.9rem 2rem; font-family:'Jost'; font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; border:none; cursor:pointer; border-radius:2px; transition:all .3s; }
+  .btn-dark:hover { background:var(--crimson); }
+  .cta-right { background:linear-gradient(135deg,var(--crimson-deep),var(--crimson)); padding:4rem; display:flex; flex-direction:column; justify-content:center; }
+  .cta-right h3 { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:300; color:#fff; line-height:1.2; margin-bottom:1rem; }
+  .cta-right p { color:rgba(255,255,255,.7); line-height:1.8; margin-bottom:2rem; font-size:.9rem; }
+
+  /* Newsletter */
+  .newsletter { padding:5rem 5vw; background:var(--ivory); text-align:center; border-top:1px solid var(--border); }
+  .newsletter h3 { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:300; color:var(--text); margin-bottom:.8rem; }
+  .newsletter p { color:var(--text-muted); margin-bottom:2rem; font-size:.9rem; }
+  .newsletter-form { display:flex; max-width:440px; margin:0 auto; gap:0; }
+  .newsletter-form input { flex:1; padding:.9rem 1.2rem; border:1px solid var(--border); border-right:none; font-family:'Jost'; font-size:.85rem; background:#fff; color:var(--text); outline:none; }
+  .newsletter-form input::placeholder { color:var(--text-muted); }
+  .newsletter-form button { padding:.9rem 1.8rem; background:var(--gold); border:none; color:var(--dark); font-family:'Jost'; font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; cursor:pointer; font-weight:500; transition:background .3s; }
+  .newsletter-form button:hover { background:var(--gold-light); }
+
+  /* ══════════════════════════════════
+     COLLECTIONS PAGE
+  ══════════════════════════════════ */
+  .collections-page { padding-top:100px; min-height:100vh; }
+  .page-hero { padding:4rem 5vw 3rem; background:linear-gradient(135deg,var(--dark),var(--crimson-deep)); text-align:center; }
+  .page-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,5vw,4rem); font-weight:300; color:#fff; margin-bottom:.8rem; }
+  .page-hero h1 em { color:var(--gold-light); font-style:italic; }
+  .page-hero p { color:rgba(255,255,255,.6); font-size:.95rem; max-width:500px; margin:0 auto; }
+  .filter-bar { padding:2rem 5vw; background:var(--ivory); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+  .filter-label { font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text-muted); }
+  .filter-btn { padding:.45rem 1.2rem; border:1px solid var(--border); background:none; color:var(--text); font-family:'Jost'; font-size:.78rem; cursor:pointer; border-radius:20px; transition:all .25s; letter-spacing:.05em; }
+  .filter-btn.active, .filter-btn:hover { background:var(--gold); border-color:var(--gold); color:var(--dark); }
+  .collections-grid { padding:3rem 5vw 6rem; }
+  .all-products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2rem; }
+
+  /* ══════════════════════════════════
+     PRODUCT DETAIL PAGE
+  ══════════════════════════════════ */
+  .product-detail { padding-top:80px; }
+  .breadcrumb { padding:1.5rem 5vw; font-size:.75rem; letter-spacing:.1em; color:var(--text-muted); display:flex; align-items:center; gap:.6rem; border-bottom:1px solid var(--border); background:var(--ivory); }
+  .breadcrumb a { color:var(--text-muted); text-decoration:none; transition:color .2s; }
+  .breadcrumb a:hover { color:var(--gold); }
+  .breadcrumb span { color:var(--gold); }
+  .detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; min-height:80vh; }
+  .detail-gallery {
+    background:var(--cream); position:sticky; top:80px; height:calc(100vh - 80px);
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .detail-gallery-inner { width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:3rem; }
+  .detail-gallery svg { max-height:90%; width:auto; filter:drop-shadow(0 20px 60px rgba(139,26,26,.2)); }
+  .thumb-strip { position:absolute; left:1.5rem; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:.8rem; }
+  .thumb { width:56px; height:70px; border:2px solid transparent; border-radius:3px; cursor:pointer; overflow:hidden; background:var(--ivory); display:flex; align-items:center; justify-content:center; transition:border-color .2s; }
+  .thumb.active { border-color:var(--gold); }
+  .detail-info { padding:4rem 4vw; overflow-y:auto; }
+  .detail-brand { font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:.8rem; }
+  .detail-title { font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:300; color:var(--text); line-height:1.1; margin-bottom:.6rem; }
+  .detail-subtitle { font-style:italic; font-family:'Cormorant Garamond',serif; color:var(--text-muted); font-size:1.1rem; margin-bottom:1.5rem; }
+  .detail-rating { display:flex; align-items:center; gap:.8rem; margin-bottom:2rem; }
+  .stars { color:var(--gold); font-size:.9rem; letter-spacing:.15rem; }
+  .rating-count { font-size:.8rem; color:var(--text-muted); }
+  .detail-price { font-family:'Cormorant Garamond',serif; font-size:2.8rem; color:var(--crimson); font-weight:600; margin-bottom:.4rem; }
+  .detail-price-note { font-size:.78rem; color:var(--text-muted); margin-bottom:2rem; }
+  .detail-divider { height:1px; background:var(--border); margin:1.8rem 0; }
+  .option-label { font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text); margin-bottom:.8rem; font-weight:500; }
+  .color-options { display:flex; gap:.8rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+  .color-option { width:36px; height:36px; border-radius:50%; cursor:pointer; border:3px solid transparent; transition:all .2s; position:relative; }
+  .color-option.selected { border-color:var(--gold); }
+  .color-option.selected::after { content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:.7rem; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.5); }
+  .size-options { display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:2rem; }
+  .size-btn { padding:.5rem 1.1rem; border:1px solid var(--border); background:none; font-family:'Jost'; font-size:.8rem; cursor:pointer; color:var(--text); transition:all .2s; border-radius:2px; }
+  .size-btn.active { background:var(--dark); color:var(--gold); border-color:var(--dark); }
+  .size-btn:hover:not(.active) { border-color:var(--gold); color:var(--gold); }
+  .qty-row { display:flex; align-items:center; gap:1rem; margin-bottom:2rem; }
+  .qty-control { display:flex; align-items:center; border:1px solid var(--border); border-radius:2px; overflow:hidden; }
+  .qty-btn { width:38px; height:38px; border:none; background:none; cursor:pointer; font-size:1.2rem; color:var(--text); transition:background .2s; }
+  .qty-btn:hover { background:var(--cream); }
+  .qty-val { width:48px; text-align:center; font-size:.9rem; color:var(--text); }
+  .add-to-cart-btn {
+    flex:1; padding:1rem 2rem; background:linear-gradient(135deg,var(--crimson-deep),var(--crimson));
+    color:#fff; font-family:'Jost'; font-size:.82rem; letter-spacing:.2em; text-transform:uppercase;
+    border:none; cursor:pointer; border-radius:2px; transition:all .3s; font-weight:500;
+  }
+  .add-to-cart-btn:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(139,26,26,.35); }
+  .buy-now-btn {
+    width:100%; padding:1rem; background:var(--gold); color:var(--dark);
+    font-family:'Jost'; font-size:.82rem; letter-spacing:.2em; text-transform:uppercase;
+    border:none; cursor:pointer; border-radius:2px; transition:all .3s; font-weight:600; margin-top:.8rem;
+  }
+  .buy-now-btn:hover { background:var(--gold-light); }
+  .detail-features { list-style:none; margin-top:2rem; }
+  .detail-features li { display:flex; align-items:flex-start; gap:.8rem; margin-bottom:1rem; font-size:.88rem; color:var(--text-muted); line-height:1.6; }
+  .detail-features li::before { content:'✦'; color:var(--gold); font-size:.65rem; flex-shrink:0; margin-top:.2rem; }
+  .accordion { margin-top:2rem; border-top:1px solid var(--border); }
+  .accordion-item { border-bottom:1px solid var(--border); }
+  .accordion-header { display:flex; justify-content:space-between; align-items:center; padding:1.1rem 0; cursor:pointer; }
+  .accordion-header h4 { font-size:.82rem; letter-spacing:.15em; text-transform:uppercase; font-weight:500; color:var(--text); }
+  .accordion-icon { color:var(--gold); font-size:1rem; transition:transform .3s; }
+  .accordion-item.open .accordion-icon { transform:rotate(45deg); }
+  .accordion-body { display:none; padding-bottom:1.2rem; color:var(--text-muted); font-size:.88rem; line-height:1.8; }
+  .accordion-item.open .accordion-body { display:block; }
+
+  /* ══════════════════════════════════
+     ABOUT PAGE
+  ══════════════════════════════════ */
+  .about-page { padding-top:80px; }
+  .about-hero { padding:6rem 5vw; background:linear-gradient(135deg,var(--dark),var(--crimson-deep)); display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+  .about-hero-text h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,5vw,4.5rem); font-weight:300; color:#fff; line-height:1.1; margin-bottom:1.5rem; }
+  .about-hero-text h1 em { color:var(--gold-light); font-style:italic; }
+  .about-hero-text p { color:rgba(255,255,255,.7); line-height:1.9; font-size:.95rem; }
+  .about-hero-visual { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .about-card { background:rgba(255,255,255,.06); border:1px solid rgba(200,153,42,.2); border-radius:4px; padding:2rem; text-align:center; }
+  .about-card-num { font-family:'Cinzel',serif; font-size:2.5rem; color:var(--gold); line-height:1; }
+  .about-card-label { font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.6); margin-top:.5rem; }
+  .about-story { padding:7rem 5vw; background:var(--ivory); }
+  .about-story-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
+  .about-story-text h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:300; color:var(--text); margin-bottom:1.5rem; line-height:1.2; }
+  .about-story-text h2 em { color:var(--crimson); font-style:italic; }
+  .about-story-text p { color:var(--text-muted); line-height:1.9; font-size:.95rem; margin-bottom:1rem; }
+  .about-weavers { padding:6rem 5vw; background:var(--cream); }
+  .about-weavers h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:300; text-align:center; margin-bottom:.8rem; }
+  .about-weavers > p { text-align:center; color:var(--text-muted); max-width:600px; margin:0 auto 4rem; line-height:1.8; font-size:.9rem; }
+  .weavers-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:2rem; }
+  .weaver-card { background:#fff; border-radius:4px; overflow:hidden; box-shadow:0 2px 15px rgba(0,0,0,.05); }
+  .weaver-img { height:180px; display:flex; align-items:center; justify-content:center; font-size:4rem; }
+  .weaver-info { padding:1.5rem; }
+  .weaver-name { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--text); margin-bottom:.3rem; }
+  .weaver-detail { font-size:.78rem; color:var(--text-muted); line-height:1.6; }
+  .values-section { padding:6rem 5vw; background:var(--ivory); }
+  .values-section h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:300; text-align:center; margin-bottom:4rem; }
+  .values-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:2rem; }
+  .value-item { text-align:center; padding:2rem; }
+  .value-icon { font-size:2.5rem; margin-bottom:1rem; }
+  .value-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--text); margin-bottom:.6rem; }
+  .value-desc { font-size:.85rem; color:var(--text-muted); line-height:1.7; }
+
+  /* ══════════════════════════════════
+     CONTACT PAGE
+  ══════════════════════════════════ */
+  .contact-page { padding-top:80px; }
+  .contact-layout { display:grid; grid-template-columns:1fr 1fr; min-height:calc(100vh - 80px); }
+  .contact-left { background:linear-gradient(160deg,var(--dark) 0%,var(--crimson-deep) 100%); padding:6rem 4vw; position:relative; overflow:hidden; }
+  .contact-left::before {
+    content:''; position:absolute; inset:0;
+    background:repeating-linear-gradient(60deg,rgba(200,153,42,.04) 0,rgba(200,153,42,.04) 1px,transparent 1px,transparent 25px);
+  }
+  .contact-left-inner { position:relative; z-index:1; }
+  .contact-left h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,4vw,4rem); font-weight:300; color:#fff; line-height:1.1; margin-bottom:1.5rem; }
+  .contact-left h1 em { color:var(--gold-light); font-style:italic; }
+  .contact-left p { color:rgba(255,255,255,.65); line-height:1.9; margin-bottom:3rem; font-size:.95rem; max-width:380px; }
+  .contact-info-item { display:flex; align-items:flex-start; gap:1.2rem; margin-bottom:2rem; }
+  .contact-icon { width:42px; height:42px; background:rgba(200,153,42,.15); border:1px solid rgba(200,153,42,.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+  .contact-info-text .label { font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:.3rem; }
+  .contact-info-text p { color:rgba(255,255,255,.8); font-size:.88rem; line-height:1.6; }
+  .contact-socials { display:flex; gap:1rem; margin-top:3rem; }
+  .social-btn { width:40px; height:40px; border:1px solid rgba(200,153,42,.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; cursor:pointer; transition:all .3s; text-decoration:none; }
+  .social-btn:hover { background:var(--gold); border-color:var(--gold); }
+  .contact-right { background:var(--ivory); padding:6rem 4vw; display:flex; align-items:center; }
+  .contact-form-wrap { width:100%; max-width:480px; }
+  .contact-form-wrap h2 { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; color:var(--text); margin-bottom:.5rem; }
+  .contact-form-wrap p { color:var(--text-muted); font-size:.88rem; margin-bottom:2.5rem; }
+  .form-group { margin-bottom:1.5rem; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .form-group label { display:block; font-size:.72rem; letter-spacing:.15em; text-transform:uppercase; color:var(--text); margin-bottom:.5rem; font-weight:500; }
+  .form-group input, .form-group select, .form-group textarea {
+    width:100%; padding:.85rem 1rem; border:1px solid var(--border);
+    background:#fff; color:var(--text); font-family:'Jost'; font-size:.88rem;
+    outline:none; transition:border-color .25s; border-radius:2px;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color:var(--gold); }
+  .form-group textarea { resize:vertical; min-height:120px; }
+  .form-submit { width:100%; padding:1rem; background:linear-gradient(135deg,var(--crimson-deep),var(--crimson)); color:#fff; font-family:'Jost'; font-size:.82rem; letter-spacing:.25em; text-transform:uppercase; border:none; cursor:pointer; border-radius:2px; transition:all .3s; font-weight:500; }
+  .form-submit:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(139,26,26,.3); }
+  .form-success { display:none; text-align:center; padding:2rem; background:rgba(200,153,42,.08); border:1px solid var(--border); border-radius:4px; }
+  .form-success .check { font-size:2.5rem; margin-bottom:1rem; }
+  .form-success h3 { font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--text); margin-bottom:.5rem; }
+  .form-success p { color:var(--text-muted); font-size:.88rem; }
+
+  /* ══════════════════════════════════
+     CART DRAWER
+  ══════════════════════════════════ */
+  .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1100; opacity:0; pointer-events:none; transition:opacity .35s; }
+  .cart-overlay.open { opacity:1; pointer-events:all; }
+  .cart-drawer {
+    position:fixed; top:0; right:0; bottom:0; width:100%; max-width:420px;
+    background:var(--ivory); z-index:1101; transform:translateX(100%);
+    transition:transform .4s cubic-bezier(.25,.46,.45,.94);
+    display:flex; flex-direction:column; box-shadow:-10px 0 40px rgba(0,0,0,.15);
+  }
+  .cart-drawer.open { transform:translateX(0); }
+  .cart-header { padding:1.8rem 1.8rem 1.4rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+  .cart-header h3 { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:400; color:var(--text); }
+  .cart-close { background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted); line-height:1; padding:.2rem; transition:color .2s; }
+  .cart-close:hover { color:var(--crimson); }
+  .cart-items { flex:1; overflow-y:auto; padding:1.5rem 1.8rem; }
+  .cart-empty { text-align:center; padding:3rem 1rem; }
+  .cart-empty-icon { font-size:3rem; margin-bottom:1rem; }
+  .cart-empty h4 { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--text); margin-bottom:.5rem; }
+  .cart-empty p { color:var(--text-muted); font-size:.85rem; }
+  .cart-item { display:flex; gap:1rem; padding:1.2rem 0; border-bottom:1px solid var(--border); }
+  .cart-item-img { width:72px; height:90px; background:var(--cream); border-radius:3px; flex-shrink:0; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .cart-item-img svg { width:100%; height:100%; }
+  .cart-item-details { flex:1; }
+  .cart-item-name { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:600; color:var(--text); margin-bottom:.2rem; }
+  .cart-item-variant { font-size:.74rem; color:var(--text-muted); margin-bottom:.5rem; }
+  .cart-item-row { display:flex; align-items:center; justify-content:space-between; }
+  .cart-item-price { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--crimson); font-weight:600; }
+  .cart-item-qty { display:flex; align-items:center; gap:.5rem; }
+  .ciq-btn { width:26px; height:26px; border:1px solid var(--border); background:none; cursor:pointer; font-size:.9rem; color:var(--text); border-radius:3px; transition:background .2s; display:flex; align-items:center; justify-content:center; }
+  .ciq-btn:hover { background:var(--cream); }
+  .cart-item-remove { font-size:.75rem; color:var(--text-muted); cursor:pointer; background:none; border:none; font-family:'Jost'; letter-spacing:.1em; transition:color .2s; }
+  .cart-item-remove:hover { color:var(--crimson); }
+  .cart-footer { padding:1.5rem 1.8rem; border-top:1px solid var(--border); background:#fff; }
+  .cart-subtotal { display:flex; justify-content:space-between; margin-bottom:.5rem; font-size:.88rem; color:var(--text-muted); }
+  .cart-total { display:flex; justify-content:space-between; margin-bottom:1.5rem; }
+  .cart-total span:first-child { font-size:.82rem; letter-spacing:.15em; text-transform:uppercase; color:var(--text); font-weight:500; }
+  .cart-total span:last-child { font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--crimson); font-weight:600; }
+  .checkout-btn { width:100%; padding:1rem; background:linear-gradient(135deg,var(--crimson-deep),var(--crimson)); color:#fff; font-family:'Jost'; font-size:.82rem; letter-spacing:.25em; text-transform:uppercase; border:none; cursor:pointer; border-radius:2px; transition:all .3s; font-weight:500; margin-bottom:.7rem; }
+  .checkout-btn:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(139,26,26,.3); }
+  .continue-btn { width:100%; padding:.8rem; background:none; color:var(--text-muted); font-family:'Jost'; font-size:.78rem; letter-spacing:.15em; text-transform:uppercase; border:1px solid var(--border); cursor:pointer; border-radius:2px; transition:all .25s; }
+  .continue-btn:hover { border-color:var(--gold); color:var(--gold); }
+
+  /* ══════════════════════════════════
+     CHECKOUT MODAL
+  ══════════════════════════════════ */
+  .checkout-overlay { position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:1200; display:none; align-items:center; justify-content:center; padding:1rem; overflow-y:auto; }
+  .checkout-overlay.open { display:flex; }
+  .checkout-modal { background:var(--ivory); border-radius:6px; width:100%; max-width:640px; max-height:90vh; overflow-y:auto; }
+  .checkout-modal-header { padding:2rem 2.5rem 1.5rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:var(--ivory); z-index:1; }
+  .checkout-modal-header h3 { font-family:'Cinzel',serif; font-size:1.2rem; color:var(--text); letter-spacing:.1em; }
+  .checkout-modal-header button { background:none; border:none; font-size:1.4rem; cursor:pointer; color:var(--text-muted); }
+  .checkout-steps { display:flex; padding:1.5rem 2.5rem; border-bottom:1px solid var(--border); gap:0; }
+  .cs-step { flex:1; text-align:center; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); position:relative; padding-bottom:.8rem; cursor:pointer; }
+  .cs-step.active { color:var(--gold); font-weight:600; }
+  .cs-step.active::after { content:''; position:absolute; bottom:0; left:10%; right:10%; height:2px; background:var(--gold); border-radius:2px; }
+  .cs-step.done { color:var(--text-muted); }
+  .checkout-body { padding:2rem 2.5rem; }
+  .checkout-section-title { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--text); margin-bottom:1.5rem; }
+  .checkout-next { width:100%; padding:1rem; margin-top:1.5rem; background:linear-gradient(135deg,var(--crimson-deep),var(--crimson)); color:#fff; font-family:'Jost'; font-size:.82rem; letter-spacing:.2em; text-transform:uppercase; border:none; cursor:pointer; border-radius:2px; transition:all .3s; }
+  .checkout-next:hover { box-shadow:0 6px 20px rgba(139,26,26,.3); }
+  .order-summary-item { display:flex; justify-content:space-between; padding:.7rem 0; border-bottom:1px solid var(--border); }
+  .order-summary-item:last-child { border:none; }
+  .osi-name { font-size:.9rem; color:var(--text); }
+  .osi-price { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--crimson); }
+  .order-total-row { display:flex; justify-content:space-between; padding:1rem 0; margin-top:1rem; border-top:2px solid var(--border); }
+  .order-total-row span:first-child { font-size:.82rem; letter-spacing:.2em; text-transform:uppercase; font-weight:600; }
+  .order-total-row span:last-child { font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--crimson); font-weight:700; }
+  .payment-methods { display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; margin-bottom:1.5rem; }
+  .pay-method { border:1px solid var(--border); padding:1rem; text-align:center; cursor:pointer; border-radius:3px; transition:all .2s; font-size:.78rem; color:var(--text); }
+  .pay-method.selected { border-color:var(--gold); background:rgba(200,153,42,.06); color:var(--gold); font-weight:600; }
+  .success-screen { text-align:center; padding:2rem 1rem; }
+  .success-icon { font-size:4rem; margin-bottom:1.5rem; }
+  .success-screen h3 { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--text); margin-bottom:.8rem; }
+  .success-screen p { color:var(--text-muted); line-height:1.8; margin-bottom:.5rem; font-size:.9rem; }
+  .order-num { font-size:.75rem; letter-spacing:.2em; color:var(--gold); margin-top:1rem; }
+
+  /* ══════════════════════════════════
+     FOOTER
+  ══════════════════════════════════ */
+  footer { background:var(--dark); padding:5rem 5vw 2rem; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:3rem; margin-bottom:4rem; }
+  .footer-brand .nav-logo { font-size:1.8rem; display:block; margin-bottom:1rem; text-decoration:none; }
+  .footer-brand p { color:rgba(255,255,255,.5); font-size:.85rem; line-height:1.8; max-width:240px; }
+  .footer-col h4 { font-size:.72rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:1.2rem; }
+  .footer-col ul { list-style:none; }
+  .footer-col li { margin-bottom:.7rem; }
+  .footer-col a { color:rgba(255,255,255,.5); text-decoration:none; font-size:.85rem; transition:color .2s; cursor:pointer; }
+  .footer-col a:hover { color:var(--gold); }
+  .footer-bottom { border-top:1px solid rgba(255,255,255,.08); padding-top:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+  .footer-bottom p { color:rgba(255,255,255,.3); font-size:.78rem; }
+  .footer-bottom .pay-icons { display:flex; gap:.6rem; }
+  .pay-icon { background:rgba(255,255,255,.08); padding:.3rem .6rem; border-radius:3px; font-size:.7rem; color:rgba(255,255,255,.5); }
+
+  /* ══════════════════════════════════
+     TOAST
+  ══════════════════════════════════ */
+  .toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(100px); background:var(--dark); color:#fff; padding:.9rem 2rem; border-radius:30px; border:1px solid var(--border); font-size:.82rem; letter-spacing:.1em; z-index:2000; transition:all .4s cubic-bezier(.175,.885,.32,1.275); opacity:0; white-space:nowrap; }
+  .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+  .toast .t-gold { color:var(--gold); }
+
+  /* Mobile nav drawer */
+  .mobile-nav { position:fixed; top:0; right:0; bottom:0; width:280px; background:var(--dark); z-index:1050; transform:translateX(100%); transition:transform .4s ease; padding:5rem 2rem 2rem; }
+  .mobile-nav.open { transform:translateX(0); }
+  .mobile-nav ul { list-style:none; }
+  .mobile-nav li { margin-bottom:1.5rem; }
+  .mobile-nav a { color:rgba(255,255,255,.8); font-size:1.1rem; text-decoration:none; letter-spacing:.1em; font-family:'Cormorant Garamond',serif; }
+  .mobile-overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1040; display:none; }
+  .mobile-overlay.show { display:block; }
+
+  /* ══════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════ */
+  @media(max-width:1024px) {
+    .detail-grid { grid-template-columns:1fr; }
+    .detail-gallery { position:relative; height:400px; top:0; }
+    .heritage-grid, .about-hero, .about-story-grid, .contact-layout { grid-template-columns:1fr; }
+    .footer-grid { grid-template-columns:1fr 1fr; }
+    .cta-band { grid-template-columns:1fr; }
+    .hero-stats { bottom:6rem; right:3rem; gap:2rem; }
+  }
+  @media(max-width:768px) {
+    .nav-links { display:none; }
+    .menu-toggle { display:flex; }
+    .hero-stats { position:static; margin-top:3rem; justify-content:flex-start; }
+    .hero-content { padding:0 5vw; }
+    .featured-header { flex-direction:column; align-items:flex-start; }
+    .footer-grid { grid-template-columns:1fr; }
+    .thumb-strip { display:none; }
+    .contact-layout { grid-template-columns:1fr; }
+    .contact-right { padding:3rem 5vw; }
+    .checkout-body { padding:1.5rem; }
+    .payment-methods { grid-template-columns:1fr 1fr; }
+    .form-row { grid-template-columns:1fr; }
+    .about-hero { padding:4rem 5vw; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-text">kanjeevaram</div>
+  <div class="loader-sub">Pure Kanjeevaram Silks</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="nav-logo" onclick="showPage('home')">ATHE<span>KA</span></a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" style="cursor:pointer">Home</a></li>
+    <li><a onclick="showPage('collections')" style="cursor:pointer">Collections</a></li>
+    <li><a onclick="showPage('about')" style="cursor:pointer">Our Story</a></li>
+    <li><a onclick="showPage('contact')" style="cursor:pointer">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="toggleCart()">
+      ✦ Cart
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="menu-toggle" onclick="toggleMobileNav()" id="menuToggle">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <ul>
+    <li><a onclick="showPage('home');toggleMobileNav()">Home</a></li>
+    <li><a onclick="showPage('collections');toggleMobileNav()">Collections</a></li>
+    <li><a onclick="showPage('about');toggleMobileNav()">Our Story</a></li>
+    <li><a onclick="showPage('contact');toggleMobileNav()">Contact</a></li>
+  </ul>
+</div>
+
+<!-- CART OVERLAY + DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+    <div class="cart-subtotal"><span>Shipping</span><span>Free</span></div>
+    <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout →</button>
+    <button class="continue-btn" onclick="toggleCart()">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-modal">
+    <div class="checkout-modal-header">
+      <h3>kanjeevaram CHECKOUT</h3>
+      <button onclick="closeCheckout()">✕</button>
+    </div>
+    <div class="checkout-steps" id="checkoutSteps">
+      <div class="cs-step active" data-step="1">Details</div>
+      <div class="cs-step" data-step="2">Shipping</div>
+      <div class="cs-step" data-step="3">Payment</div>
+      <div class="cs-step" data-step="4">Review</div>
+    </div>
+    <div class="checkout-body" id="checkoutBody"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ HOME PAGE ══════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-orb"></div>
+    <div class="hero-orb2"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span>Since 1987 · Kanchipuram, Tamil Nadu</span></div>
+      <h1 class="hero-title">
+        <em>Weaving Stories</em>
+        <strong>in Gold & Silk</strong>
+      </h1>
+      <p class="hero-sub">Each Kanjeevaram saree is a masterpiece born from two thousand threads and fourteen days of artistry. Draped in tradition. Crafted for eternity.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" onclick="showPage('collections')">Explore Collection ✦</a>
+        <a class="btn-outline" onclick="showPage('about')">Our Heritage</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Designs</div></div>
+        <div class="stat"><div class="stat-num">36</div><div class="stat-label">Weavers</div></div>
+        <div class="stat"><div class="stat-num">18k</div><div class="stat-label">Happy Brides</div></div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-wrap">
+    <div class="marquee">
+      <span>Pure Silk</span><span>Zari Work</span><span>Bridal Collection</span><span>Festive Wear</span><span>Custom Orders</span><span>Certified Authentic</span><span>Handwoven</span><span>Kanchipuram</span>
+      <span>Pure Silk</span><span>Zari Work</span><span>Bridal Collection</span><span>Festive Wear</span><span>Custom Orders</span><span>Certified Authentic</span><span>Handwoven</span><span>Kanchipuram</span>
+    </div>
+  </div>
+
+  <!-- Heritage -->
+  <section class="heritage">
+    <div class="heritage-grid">
+      <div class="heritage-text">
+        <div class="section-tag">Heritage & Craft</div>
+        <h2>Where <em>Ancient Craft</em><br>Meets Modern Grace</h2>
+        <p>Kanjeevaram sarees have adorned royalty, graced wedding mandaps, and been passed down as heirlooms for centuries. The legendary silk woven in Kanchipuram — where two threads meet in a union as sacred as the occasions they celebrate.</p>
+        <p>At kanjeevaram, we work directly with master weavers from Kanchipuram to bring you silks that carry the soul of Tamil Nadu's finest tradition. Every saree bears our Silk Mark certification.</p>
+        <br>
+        <a class="btn-primary" onclick="showPage('about')" style="display:inline-flex">Read Our Story →</a>
+      </div>
+      <div class="heritage-visual">
+        <div class="heritage-card">
+          <span class="hc-badge">✦ Silk Mark Certified</span>
+          <div class="heritage-card-inner">
+            <svg viewBox="0 0 300 380" class="saree-svg-main" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="sariPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M0 0L20 20M20 0L0 20" stroke="rgba(200,153,42,0.3)" stroke-width="0.5"/>
+                </pattern>
+                <linearGradient id="sariGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#8B1A1A"/>
+                  <stop offset="50%" style="stop-color:#C0392B"/>
+                  <stop offset="100%" style="stop-color:#6B0F0F"/>
+                </linearGradient>
+                <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#C8992A"/>
+                  <stop offset="50%" style="stop-color:#E8C060"/>
+                  <stop offset="100%" style="stop-color:#C8992A"/>
+                </linearGradient>
+              </defs>
+              <!-- Saree body -->
+              <rect x="30" y="20" width="240" height="340" rx="6" fill="url(#sariGrad)"/>
+              <rect x="30" y="20" width="240" height="340" rx="6" fill="url(#sariPattern)" opacity="0.4"/>
+              <!-- Gold border top/bottom -->
+              <rect x="30" y="20" width="240" height="28" rx="6" fill="url(#goldGrad)" opacity="0.9"/>
+              <rect x="30" y="332" width="240" height="28" rx="6" fill="url(#goldGrad)" opacity="0.9"/>
+              <!-- Gold side borders -->
+              <rect x="30" y="48" width="22" height="284" fill="url(#goldGrad)" opacity="0.85"/>
+              <rect x="248" y="48" width="22" height="284" fill="url(#goldGrad)" opacity="0.85"/>
+              <!-- Center motif - Paisley pattern -->
+              <g transform="translate(150,190)">
+                <ellipse cx="0" cy="0" rx="55" ry="55" fill="none" stroke="rgba(200,153,42,0.6)" stroke-width="1.5"/>
+                <ellipse cx="0" cy="0" rx="40" ry="40" fill="none" stroke="rgba(200,153,42,0.8)" stroke-width="1"/>
+                <circle cx="0" cy="0" r="18" fill="rgba(200,153,42,0.25)" stroke="rgba(200,153,42,0.9)" stroke-width="1.5"/>
+                <!-- Petal motifs -->
+                <g stroke="rgba(232,192,96,0.8)" stroke-width="1" fill="rgba(200,153,42,0.15)">
+                  <ellipse cx="0" cy="-48" rx="8" ry="14" transform="rotate(0)"/>
+                  <ellipse cx="0" cy="-48" rx="8" ry="14" transform="rotate(45)"/>
+                  <ellipse cx="0" cy="-48" rx="8" ry="14" transform="rotate(90)"/>
+                  <ellipse cx="0" cy="-48" rx="8" ry="14" transform="rotate(135)"/>
+                  <ellipse cx="0" cy="-48" rx="8" ry="14" transform="rotate(180)"/>
+                  <ellipse cx="0" cy="-48" rx="8" ry="14" transform="rotate(225)"/>
+                  <ellipse cx="0" cy="-48" rx="8" ry="14" transform="rotate(270)"/>
+                  <ellipse cx="0" cy="-48" rx="8" ry="14" transform="rotate(315)"/>
+                </g>
+                <!-- Inner diamond -->
+                <polygon points="0,-12 12,0 0,12 -12,0" fill="rgba(200,153,42,0.7)" stroke="rgba(232,192,96,1)" stroke-width="1"/>
+              </g>
+              <!-- Repeating small motifs -->
+              <g fill="rgba(200,153,42,0.5)" stroke="none">
+                <circle cx="90" cy="100" r="5"/><circle cx="150" cy="80" r="5"/><circle cx="210" cy="100" r="5"/>
+                <circle cx="90" cy="280" r="5"/><circle cx="150" cy="300" r="5"/><circle cx="210" cy="280" r="5"/>
+              </g>
+              <!-- Silk Mark text area -->
+              <text x="150" y="368" text-anchor="middle" fill="rgba(200,153,42,0.7)" font-size="8" font-family="serif" letter-spacing="3">KANCHIPURAM SILK</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Collection -->
+  <section class="featured" id="featuredSection">
+    <div class="featured-header">
+      <div>
+        <div class="section-tag">Curated For You</div>
+        <h2>The <span>Signature</span> Edit</h2>
+      </div>
+      <a class="view-all-link" onclick="showPage('collections')">View All →</a>
+    </div>
+    <div class="products-grid" id="featuredGrid"></div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="testimonials-header">
+      <div class="section-tag" style="justify-content:center;color:var(--gold-light)">
+        <span style="color:var(--gold-light)">Loved By Thousands</span>
+      </div>
+      <h2>Words from Our <em>Beloved Drapes</em></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"I wore the Bridal Ruby Kanjeevaram for my wedding and every single guest stopped to admire it. The zari work is beyond compare — pure gold threads that caught the light perfectly."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#C8992A,#E8C060)">🌸</div>
+          <div><div class="testi-name">Priya Venkataraman</div><div class="testi-loc">Chennai, Tamil Nadu</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"My mother's saree was from kanjeevaram 20 years ago, and now I bought one for my daughter's naming ceremony. The quality is exactly the same — timeless perfection."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#8B1A1A,#C0392B)">🌺</div>
+          <div><div class="testi-name">Meenakshi Sundaram</div><div class="testi-loc">Coimbatore</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The Midnight Peacock saree is a work of art. The iridescent zari against the deep blue silk is breathtaking. kanjeevaram has redefined my understanding of luxury."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#1A3A5C,#2E6DA4)">💙</div>
+          <div><div class="testi-name">Lakshmi Narayanan</div><div class="testi-loc">Bengaluru</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Band -->
+  <div class="cta-band">
+    <div class="cta-left">
+      <h3>Bridal Collections Await</h3>
+      <p>Make your most important day truly unforgettable. Browse our curated bridal Kanjeevaram range with complimentary blouse stitching.</p>
+      <button class="btn-dark" onclick="showPage('collections')">Shop Bridal ✦</button>
+    </div>
+    <div class="cta-right">
+      <h3 style="color:#fff">Custom Orders Welcome</h3>
+      <p>Have a color in mind? An heirloom design to recreate? Our master weavers take bespoke orders with 6–8 week delivery.</p>
+      <button class="btn-outline" onclick="showPage('contact')">Get In Touch</button>
+    </div>
+  </div>
+
+  <!-- Newsletter -->
+  <section class="newsletter">
+    <div class="section-tag" style="justify-content:center">New Arrivals & Stories</div>
+    <h3>Join the kanjeevaram Circle</h3>
+    <p>Be the first to know about new collections, weaver stories, and festive offers.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Your email address" id="newsletterEmail">
+      <button onclick="subscribeNewsletter()">Subscribe</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" onclick="showPage('home')">ATHE<span>KA</span></a>
+        <p>Heirloom Kanjeevaram silks woven by master artisans in Kanchipuram. Crafted with 2000-year-old traditions.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a onclick="showPage('collections')">All Sarees</a></li>
+          <li><a onclick="showPage('collections')">Bridal</a></li>
+          <li><a onclick="showPage('collections')">Festive</a></li>
+          <li><a onclick="showPage('collections')">Everyday Silk</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a onclick="showPage('contact')">Contact Us</a></li>
+          <li><a>Shipping Policy</a></li>
+          <li><a>Returns</a></li>
+          <li><a>Size Guide</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Visit Us</h4>
+        <ul>
+          <li><a>14, Silk Weavers Street</a></li>
+          <li><a>Kanchipuram, Tamil Nadu</a></li>
+          <li><a>631501</a></li>
+          <li><a>+91 98765 43210</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 kanjeevaram Silk House. All rights reserved.</p>
+      <div class="pay-icons">
+        <span class="pay-icon">UPI</span>
+        <span class="pay-icon">Visa</span>
+        <span class="pay-icon">MC</span>
+        <span class="pay-icon">RuPay</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════ COLLECTIONS PAGE ══════════════════════════ -->
+<div class="page" id="page-collections">
+  <div class="collections-page">
+    <div class="page-hero">
+      <h1>The <em>Collections</em></h1>
+      <p>Every saree tells a story. Discover the full range of kanjeevaram Kanjeevaram silks — woven for brides, celebrations, and quiet elegance.</p>
+    </div>
+    <div class="filter-bar">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" onclick="filterProducts('all',this)">All</button>
+      <button class="filter-btn" onclick="filterProducts('bridal',this)">Bridal</button>
+      <button class="filter-btn" onclick="filterProducts('festive',this)">Festive</button>
+      <button class="filter-btn" onclick="filterProducts('everyday',this)">Everyday</button>
+      <button class="filter-btn" onclick="filterProducts('royal',this)">Royal</button>
+    </div>
+    <div class="collections-grid">
+      <div class="all-products-grid" id="allProductsGrid"></div>
+    </div>
+    <footer style="margin-top:0">
+      <div class="footer-bottom" style="padding:2rem 5vw; border-top:1px solid rgba(255,255,255,.08)">
+        <p>© 2024 kanjeevaram Silk House. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ══════════════════════════ PRODUCT DETAIL PAGE ══════════════════════════ -->
+<div class="page" id="page-product">
+  <div class="product-detail">
+    <div class="breadcrumb">
+      <a onclick="showPage('home')">Home</a> ›
+      <a onclick="showPage('collections')">Collections</a> ›
+      <span id="breadcrumbName">Product</span>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-gallery" id="detailGallery">
+        <div class="detail-gallery-inner" id="detailGalleryInner"></div>
+        <div class="thumb-strip" id="thumbStrip"></div>
+      </div>
+      <div class="detail-info" id="detailInfo"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ ABOUT PAGE ══════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="about-page">
+    <div class="about-hero">
+      <div class="about-hero-text">
+        <div class="section-tag" style="color:var(--gold-light)">Our Journey</div>
+        <h1>Born of <em>Silk</em>,<br>Woven with <em>Love</em></h1>
+        <p>In 1987, master weaver Krishnamurthy Pillai walked away from a corporate job to revive the dying art of pure Kanjeevaram silk. Today, kanjeevaram is a testament to his belief: that true luxury is never mass-produced.</p>
+      </div>
+      <div class="about-hero-visual">
+        <div class="about-card"><div class="about-card-num">36+</div><div class="about-card-label">Master Weavers</div></div>
+        <div class="about-card"><div class="about-card-num">37</div><div class="about-card-label">Years of Craft</div></div>
+        <div class="about-card"><div class="about-card-num">18k</div><div class="about-card-label">Families Served</div></div>
+        <div class="about-card"><div class="about-card-num">200+</div><div class="about-card-label">Designs</div></div>
+      </div>
+    </div>
+    <div class="about-story">
+      <div class="about-story-grid">
+        <div class="about-story-text">
+          <div class="section-tag">The Beginning</div>
+          <h2>A Weaver's <em>Dream</em> Becomes Legacy</h2>
+          <p>Krishnamurthy Pillai grew up watching his grandmother weave. He saw how the art was fading as synthetic fabrics took over. In 1987, with two looms and four weavers, he started kanjeevaram in a single room in Kanchipuram.</p>
+          <p>The name "kanjeevaram" comes from the Tamil word meaning "to embrace warmly" — because each saree is meant to embrace the woman who wears it with grace, tradition, and timeless beauty.</p>
+          <p>Today, his daughter Meera Pillai leads the brand with the same devotion — ensuring every thread meets their exacting standards of authenticity.</p>
+        </div>
+        <div style="background:linear-gradient(135deg,var(--crimson-deep),var(--crimson)); border-radius:8px; padding:3rem; display:flex; align-items:center; justify-content:center;">
+          <svg viewBox="0 0 280 360" width="100%" style="max-width:280px">
+            <defs>
+              <linearGradient id="loomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#C8992A"/><stop offset="100%" style="stop-color:#E8C060"/>
+              </linearGradient>
+            </defs>
+            <rect x="20" y="30" width="240" height="300" rx="6" fill="rgba(200,153,42,0.1)" stroke="rgba(200,153,42,0.3)" stroke-width="1"/>
+            <!-- Loom frame -->
+            <rect x="40" y="50" width="10" height="260" rx="3" fill="url(#loomGrad)" opacity="0.8"/>
+            <rect x="230" y="50" width="10" height="260" rx="3" fill="url(#loomGrad)" opacity="0.8"/>
+            <rect x="40" y="50" width="200" height="10" rx="3" fill="url(#loomGrad)" opacity="0.8"/>
+            <rect x="40" y="300" width="200" height="10" rx="3" fill="url(#loomGrad)" opacity="0.8"/>
+            <!-- Warp threads -->
+            <g stroke="rgba(200,153,42,0.5)" stroke-width="0.8">
+              <line x1="60" y1="60" x2="60" y2="300"/><line x1="75" y1="60" x2="75" y2="300"/>
+              <line x1="90" y1="60" x2="90" y2="300"/><line x1="105" y1="60" x2="105" y2="300"/>
+              <line x1="120" y1="60" x2="120" y2="300"/><line x1="135" y1="60" x2="135" y2="300"/>
+              <line x1="150" y1="60" x2="150" y2="300"/><line x1="165" y1="60" x2="165" y2="300"/>
+              <line x1="180" y1="60" x2="180" y2="300"/><line x1="195" y1="60" x2="195" y2="300"/>
+              <line x1="210" y1="60" x2="210" y2="300"/>
+            </g>
+            <!-- Woven fabric representation -->
+            <g opacity="0.7">
+              <rect x="55" y="180" width="170" height="120" fill="url(#sariGrad)" rx="2"/>
+              <!-- Weft pattern lines -->
+              <g stroke="rgba(200,153,42,0.6)" stroke-width="1.5">
+                <line x1="55" y1="195" x2="225" y2="195"/>
+                <line x1="55" y1="210" x2="225" y2="210"/>
+                <line x1="55" y1="225" x2="225" y2="225"/>
+                <line x1="55" y1="240" x2="225" y2="240"/>
+                <line x1="55" y1="255" x2="225" y2="255"/>
+                <line x1="55" y1="270" x2="225" y2="270"/>
+                <line x1="55" y1="285" x2="225" y2="285"/>
+              </g>
+            </g>
+            <text x="140" y="345" text-anchor="middle" fill="rgba(200,153,42,0.6)" font-size="9" font-family="serif" letter-spacing="2">HANDLOOM · HERITAGE</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="about-weavers">
+      <div class="section-tag" style="justify-content:center">Our Artisans</div>
+      <h2>Meet the <em style="font-style:italic;color:var(--crimson)">Hands</em> Behind the Silk</h2>
+      <p>Every kanjeevaram saree is handwoven by one of our 36 master weavers, each a specialist with 20+ years of experience.</p>
+      <div class="weavers-grid">
+        <div class="weaver-card">
+          <div class="weaver-img" style="background:linear-gradient(135deg,rgba(139,26,26,.1),rgba(200,153,42,.1))">🧵</div>
+          <div class="weaver-info"><div class="weaver-name">Ramu Pillai</div><div class="weaver-detail">Specializes in temple border designs. 32 years of experience. Has woven sarees for two Tamil Nadu Chief Ministers.</div></div>
+        </div>
+        <div class="weaver-card">
+          <div class="weaver-img" style="background:linear-gradient(135deg,rgba(26,10,10,.05),rgba(139,26,26,.1))">🎨</div>
+          <div class="weaver-info"><div class="weaver-name">Kamala Ammal</div><div class="weaver-detail">Our only female master weaver. Creates intricate peacock motifs that take up to 18 days per saree to complete.</div></div>
+        </div>
+        <div class="weaver-card">
+          <div class="weaver-img" style="background:linear-gradient(135deg,rgba(200,153,42,.08),rgba(232,192,96,.15))">✨</div>
+          <div class="weaver-info"><div class="weaver-name">Selvam Iyer</div><div class="weaver-detail">Third-generation weaver. Master of pure zari (real gold thread) work. His sarees have been exhibited at the Victoria & Albert Museum.</div></div>
+        </div>
+        <div class="weaver-card">
+          <div class="weaver-img" style="background:linear-gradient(135deg,rgba(46,107,164,.08),rgba(26,58,92,.12))">🌿</div>
+          <div class="weaver-info"><div class="weaver-name">Murugan Nadar</div><div class="weaver-detail">Expert in nature-inspired motifs — mangoes, leaves, birds. Known for his innovative color combinations that stay true to tradition.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="values-section">
+      <h2>What We <em style="font-style:italic;color:var(--crimson)">Stand For</em></h2>
+      <div class="values-grid">
+        <div class="value-item"><div class="value-icon">🌿</div><div class="value-title">Sustainability</div><div class="value-desc">We use natural dyes and mulberry silk farmed within 100km of our workshop, minimizing our ecological footprint.</div></div>
+        <div class="value-item"><div class="value-icon">🤝</div><div class="value-title">Fair Wages</div><div class="value-desc">Every weaver earns 3x the regional average wage. We believe the artisan's prosperity is inseparable from the saree's beauty.</div></div>
+        <div class="value-item"><div class="value-icon">🏅</div><div class="value-title">Authenticity</div><div class="value-desc">Every kanjeevaram saree comes with Silk Mark certification and a hand-signed card from the weaver who created it.</div></div>
+        <div class="value-item"><div class="value-icon">♾️</div><div class="value-title">Heritage</div><div class="value-desc">We actively document and teach dying weaving techniques to the next generation, ensuring this art lives for centuries more.</div></div>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-bottom" style="padding:2rem 5vw; border-top:1px solid rgba(255,255,255,.08)">
+        <p>© 2024 kanjeevaram Silk House. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CONTACT PAGE ══════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="contact-page">
+    <div class="contact-layout">
+      <div class="contact-left">
+        <div class="contact-left-inner">
+          <div class="section-tag" style="color:var(--gold-light)">Get In Touch</div>
+          <h1>We'd Love to<br><em>Hear From You</em></h1>
+          <p>Whether you're looking for your dream bridal saree, a custom order, or simply want to know more about our weavers — we're here for you.</p>
+          <div class="contact-info-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-info-text">
+              <div class="label">Visit Us</div>
+              <p>14, Silk Weavers Street<br>Kanchipuram, Tamil Nadu 631501</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon">📞</div>
+            <div class="contact-info-text">
+              <div class="label">Call Us</div>
+              <p>+91 98765 43210<br>Mon–Sat, 9am–7pm IST</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon">✉️</div>
+            <div class="contact-info-text">
+              <div class="label">Email Us</div>
+              <p>hello@kanjeevaram.in<br>orders@kanjeevaram.in</p>
+            </div>
+          </div>
+          <div class="contact-socials">
+            <a class="social-btn">📷</a>
+            <a class="social-btn">👍</a>
+            <a class="social-btn">🐦</a>
+            <a class="social-btn">📌</a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-right">
+        <div class="contact-form-wrap">
+          <h2>Send Us a Message</h2>
+          <p>Fill in the form below and we'll get back to you within 24 hours.</p>
+          <div id="contactFormWrap">
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" placeholder="Priya" id="cf-fname">
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" placeholder="Sharma" id="cf-lname">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" placeholder="priya@email.com" id="cf-email">
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" placeholder="+91 98765 00000" id="cf-phone">
+            </div>
+            <div class="form-group">
+              <label>Enquiry Type</label>
+              <select id="cf-type">
+                <option>General Enquiry</option>
+                <option>Bridal Consultation</option>
+                <option>Custom Order</option>
+                <option>Bulk/Corporate Order</option>
+                <option>Returns & Exchange</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Your Message</label>
+              <textarea placeholder="Tell us what you're looking for..." id="cf-msg"></textarea>
+            </div>
+            <button class="form-submit" onclick="submitContactForm()">Send Message ✦</button>
+          </div>
+          <div class="form-success" id="formSuccess">
+            <div class="check">✦</div>
+            <h3>Message Received!</h3>
+            <p>Thank you for reaching out. Our team will respond within 24 hours. We look forward to helping you find your perfect Kanjeevaram.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA — Products
+// ═══════════════════════════════════════
+const products = [
+  {
+    id:1, name:"Bridal Ruby Kanjeevaram", type:"bridal", subtitle:"Muhurtham Collection",
+    price:38500, originalPrice:45000, rating:4.9, reviews:284,
+    badge:"bestseller", badgeText:"Best Seller",
+    colors:["#8B1A1A","#C8992A","#5C1E1E","#4A0E6E"],
+    colorNames:["Classic Ruby","Gold Zari","Deep Maroon","Royal Purple"],
+    sizes:["5.5m","6m","6.5m","9m"],
+    features:[
+      "Pure mulberry silk — 120 grams per saree",
+      "22K gold zari border — 8 inches wide",
+      "Traditional temple border motifs with peacock pallav",
+      "Double warp technique for extra sheen",
+      "Complimentary blouse piece (0.8m) included",
+      "Silk Mark Certificate included"
+    ],
+    desc:"The crown jewel of our bridal collection. This Kanjeevaram is woven over 14 days by master weaver Ramu Pillai using pure gold zari threads imported from Surat. The temple border design represents prosperity and blessings for the new journey ahead.",
+    care:"Dry clean only. Store in a muslin cloth, never plastic. Air every 6 months.",
+    delivery:"Ships in 3–5 business days. Free shipping on all orders above ₹5,000.",
+    gradient:"linear-gradient(135deg,#5C0F0F,#8B1A1A,#A02020)",
+    accentColor:"#C8992A"
+  },
+  {
+    id:2, name:"Midnight Peacock Blue", type:"festive", subtitle:"Festival Luxe Series",
+    price:24800, originalPrice:29000, rating:4.8, reviews:196,
+    badge:"new", badgeText:"New Arrival",
+    colors:["#1A3A5C","#0A2240","#2E3B8B","#1A1A5C"],
+    colorNames:["Midnight Blue","Navy Deep","Royal Indigo","Sapphire"],
+    sizes:["5.5m","6m","6.5m"],
+    features:[
+      "Premium silk with 110g weight for drapeability",
+      "Iridescent zari — shifts from gold to silver in light",
+      "Full peacock pallav — handpainted zari inlay",
+      "Traditional korvai border in contrasting crimson",
+      "Blouse piece included"
+    ],
+    desc:"Inspired by the midnight sky over Kanchipuram, this saree features an extraordinary iridescent zari that catches light like stars. The full-body peacock pallav is Kamala Ammal's signature — each feather individually woven.",
+    care:"Dry clean only. Store folded with naphthalene. Avoid direct sunlight.",
+    delivery:"Ships in 3–5 business days.",
+    gradient:"linear-gradient(135deg,#0A1628,#1A3A5C,#1F3080)",
+    accentColor:"#4A90D9"
+  },
+  {
+    id:3, name:"Emerald Forest Zari", type:"festive", subtitle:"Heritage Weaves",
+    price:19200, originalPrice:22000, rating:4.7, reviews:143,
+    badge:"limited", badgeText:"Limited",
+    colors:["#1A5C2A","#0D3B18","#2E7D32","#4A8C3F"],
+    colorNames:["Forest Green","Deep Emerald","Jade","Sage"],
+    sizes:["5.5m","6m","6.5m","9m"],
+    features:[
+      "Pure Bangalore silk base with Kanchipuram zari",
+      "Gold zari mango motif border",
+      "Checked body pattern — rare 'muthu' technique",
+      "Temple running border in deep crimson",
+      "Blouse piece included"
+    ],
+    desc:"The Emerald Forest uses the rare 'muthu' checked weave technique that only 3 weavers in Kanchipuram still practice. Each check is formed by changing the thread tension — no dye, only weaving geometry creates this pattern.",
+    care:"Dry clean only. Use cedar wood blocks instead of mothballs.",
+    delivery:"Ships in 5–7 business days. Limited to 12 pieces.",
+    gradient:"linear-gradient(135deg,#0D2B14,#1A5C2A,#1E6B30)",
+    accentColor:"#4CAF50"
+  },
+  {
+    id:4, name:"Sunrise Kanjivaram", type:"everyday", subtitle:"Everyday Elegance",
+    price:12500, originalPrice:15000, rating:4.6, reviews:89,
+    badge:null,
+    colors:["#E8A020","#C8992A","#D44000","#F0C040"],
+    colorNames:["Golden Sunrise","Turmeric","Burnt Orange","Saffron"],
+    sizes:["5.5m","6m","6.5m"],
+    features:[
+      "Semi-pure silk — perfect for everyday wear",
+      "Silver zari border with floral motifs",
+      "Lightweight at 85g for comfortable draping",
+      "Machine washable (gentle cycle)",
+      "Blouse piece included"
+    ],
+    desc:"Not every Kanjeevaram needs to be for a grand occasion. The Sunrise is your everyday companion — light enough for office, beautiful enough to turn heads, and easy to care for.",
+    care:"Gentle machine wash in cold water. Iron on low heat.",
+    delivery:"Ships in 2–3 business days.",
+    gradient:"linear-gradient(135deg,#8B5000,#C8700A,#E8A020)",
+    accentColor:"#E8C060"
+  },
+  {
+    id:5, name:"Royal Violet Zari", type:"royal", subtitle:"Queen's Court Collection",
+    price:52000, originalPrice:62000, rating:5.0, reviews:67,
+    badge:"bestseller", badgeText:"Our Finest",
+    colors:["#4A0E6E","#2D0A45","#6B1FA0","#8B35C0"],
+    colorNames:["Royal Violet","Deep Plum","Amethyst","Lavender Deep"],
+    sizes:["6m","6.5m","9m"],
+    features:[
+      "Extraordinary 140g pure silk — densest in our range",
+      "Real 24K gold zari — tested and certified",
+      "Complete body woven with gold thread motifs",
+      "Triple-border technique — only 2 weavers can do this",
+      "Delivered in a sandalwood box",
+      "Selvam Iyer signature — master weaver certificate"
+    ],
+    desc:"The Royal Violet is the pinnacle of kanjeevaram's craft. It takes 21 days to weave. The gold zari is certified 24K by the Government of Tamil Nadu. Each piece is signed by Selvam Iyer, whose work hangs in the Victoria & Albert Museum.",
+    care:"Store in the sandalwood box. Professional dry clean only. This is a generational heirloom.",
+    delivery:"Ships in 7–10 business days with special courier. Fully insured.",
+    gradient:"linear-gradient(135deg,#1A0530,#4A0E6E,#5C1580)",
+    accentColor:"#A855F7"
+  },
+  {
+    id:6, name:"Coral Blossom Silk", type:"everyday", subtitle:"Petal Collection",
+    price:15800, originalPrice:18500, rating:4.5, reviews:112,
+    badge:null,
+    colors:["#E05050","#C03030","#E88060","#D04070"],
+    colorNames:["Coral Red","Deep Rose","Peach Coral","Berry"],
+    sizes:["5.5m","6m","6.5m"],
+    features:[
+      "Soft-touch semi-silk blend",
+      "Delicate silver zari floral border",
+      "Ideal for morning pujas and family gatherings",
+      "Easy drape for beginners",
+      "Comes with matching blouse piece"
+    ],
+    desc:"Light and joyful, the Coral Blossom brings the spirit of a flowering garden to your wardrobe. The silver zari catches morning light beautifully, making it perfect for temple visits and festive family occasions.",
+    care:"Dry clean recommended. Can be hand-washed with silk wash soap.",
+    delivery:"Ships in 2–4 business days.",
+    gradient:"linear-gradient(135deg,#7A1A1A,#C03030,#E05050)",
+    accentColor:"#F87171"
+  },
+  {
+    id:7, name:"Marigold Temple Silk", type:"festive", subtitle:"Navarathri Edit",
+    price:21500, originalPrice:25000, rating:4.8, reviews:178,
+    badge:"new", badgeText:"Navarathri Special",
+    colors:["#D4830A","#E8A800","#C86800","#F0C030"],
+    colorNames:["Marigold","Pure Gold","Deep Amber","Turmeric Gold"],
+    sizes:["5.5m","6m","6.5m","9m"],
+    features:[
+      "Rich 115g pure silk",
+      "Traditional temple arch border — 10 inches",
+      "Elephant and lotus motifs throughout",
+      "Vibrant natural turmeric-based dye",
+      "Blouse piece included"
+    ],
+    desc:"Woven for the nine divine nights, the Marigold Temple Silk glows like a festival lamp. The temple border depicts alternating elephants and lotus flowers — traditional symbols of prosperity and purity.",
+    care:"Dry clean only. The natural dye may slightly fade after 5+ cleans — this is authentic patina.",
+    delivery:"Ships in 3–5 business days. Order before Oct 1 for Navarathri delivery.",
+    gradient:"linear-gradient(135deg,#6B3800,#C86800,#D4830A)",
+    accentColor:"#FBB724"
+  },
+  {
+    id:8, name:"Ivory Grand Palace", type:"bridal", subtitle:"Muhurtham Collection",
+    price:44000, originalPrice:52000, rating:4.9, reviews:203,
+    badge:"bestseller", badgeText:"Bridal Fav",
+    colors:["#F5F0E0","#E8D090","#C8B860","#F0ECD0"],
+    colorNames:["Pure Ivory","Gold Ivory","Antique Gold","Cream"],
+    sizes:["5.5m","6m","6.5m","9m"],
+    features:[
+      "Ivory pure silk — rarely available in Kanchipuram",
+      "All-over 22K gold zari — body, border, pallav",
+      "Traditional 'veldhari' (all-over) weave",
+      "Complete with 3 blouse pieces",
+      "Delivered in luxury packaging with a weaver's note",
+      "Silk Mark + GI Tag certified"
+    ],
+    desc:"For the bride who seeks timeless grace over color. The Ivory Grand Palace is woven entirely with gold zari against a cream silk ground, creating a luminosity that photographs like a dream and looks like royalty in person.",
+    care:"Store wrapped in a gold-bordered muslin. Dry clean only. Treasure for life.",
+    delivery:"Ships in 7–10 business days. White-glove delivery available in Chennai & Bengaluru.",
+    gradient:"linear-gradient(135deg,#5C4A00,#8B7010,#C8A830)",
+    accentColor:"#E8D090"
+  }
+];
+
+// ═══════════════════════════════════════
+// SVG SAREE GENERATOR
+// ═══════════════════════════════════════
+function getSareeSVG(product, large=false) {
+  const w = large ? 320 : 260, h = large ? 420 : 340;
+  const gc = product.gradient.match(/#[A-Fa-f0-9]{6}/g) || ["#8B1A1A","#C8992A"];
+  const g1=gc[0]||"#8B1A1A", g2=gc[1]||"#A02020", g3=gc[2]||g2;
+  const acc = product.accentColor||"#C8992A";
+  const id = `sg${product.id}${large?'L':'S'}`;
+  return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;object-fit:cover">
+  <defs>
+    <linearGradient id="bg${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:${g1}"/>
+      <stop offset="55%" style="stop-color:${g2}"/>
+      <stop offset="100%" style="stop-color:${g3}"/>
+    </linearGradient>
+    <linearGradient id="zari${id}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:${acc}"/>
+      <stop offset="50%" style="stop-color:#F5E0A0"/>
+      <stop offset="100%" style="stop-color:${acc}"/>
+    </linearGradient>
+    <pattern id="diag${id}" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M0 0L16 16M16 0L0 16" stroke="${acc}" stroke-width="0.4" opacity="0.25"/>
+    </pattern>
+  </defs>
+  <rect width="${w}" height="${h}" rx="6" fill="url(#bg${id})"/>
+  <rect width="${w}" height="${h}" rx="6" fill="url(#diag${id})" opacity="0.5"/>
+  <rect x="0" y="0" width="${w}" height="${Math.round(h*.08)}" fill="url(#zari${id})" opacity="0.9" rx="6"/>
+  <rect x="0" y="${Math.round(h*.92)}" width="${w}" height="${Math.round(h*.08)}" fill="url(#zari${id})" opacity="0.9" rx="6"/>
+  <rect x="0" y="${Math.round(h*.08)}" width="${Math.round(w*.08)}" height="${Math.round(h*.84)}" fill="url(#zari${id})" opacity="0.8"/>
+  <rect x="${Math.round(w*.92)}" y="${Math.round(h*.08)}" width="${Math.round(w*.08)}" height="${Math.round(h*.84)}" fill="url(#zari${id})" opacity="0.8"/>
+  <g transform="translate(${Math.round(w/2)},${Math.round(h/2)})">
+    <circle cx="0" cy="0" r="${Math.round(w*.18)}" fill="none" stroke="${acc}" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="0" cy="0" r="${Math.round(w*.12)}" fill="rgba(200,153,42,0.18)" stroke="${acc}" stroke-width="1" opacity="0.7"/>
+    <circle cx="0" cy="0" r="${Math.round(w*.05)}" fill="${acc}" opacity="0.6"/>
+    ${[0,45,90,135,180,225,270,315].map(a=>{
+      const r=Math.round(w*.22), rad=a*Math.PI/180;
+      const x=Math.round(r*Math.sin(rad)), y=Math.round(-r*Math.cos(rad));
+      return `<ellipse cx="${x}" cy="${y}" rx="${Math.round(w*.05)}" ry="${Math.round(w*.09)}" transform="rotate(${a})" fill="${acc}" opacity="0.2" stroke="${acc}" stroke-width="0.8"/>`;
+    }).join('')}
+  </g>
+  <g opacity="0.5">
+    <circle cx="${Math.round(w*.2)}" cy="${Math.round(h*.25)}" r="4" fill="${acc}"/>
+    <circle cx="${Math.round(w*.8)}" cy="${Math.round(h*.25)}" r="4" fill="${acc}"/>
+    <circle cx="${Math.round(w*.2)}" cy="${Math.round(h*.75)}" r="4" fill="${acc}"/>
+    <circle cx="${Math.round(w*.8)}" cy="${Math.round(h*.75)}" r="4" fill="${acc}"/>
+    <circle cx="${Math.round(w*.5)}" cy="${Math.round(h*.18)}" r="3" fill="${acc}"/>
+    <circle cx="${Math.round(w*.5)}" cy="${Math.round(h*.82)}" r="3" fill="${acc}"/>
+  </g>
+  <text x="${Math.round(w/2)}" y="${h-6}" text-anchor="middle" fill="${acc}" font-size="7" font-family="serif" letter-spacing="3" opacity="0.6">KANCHIPURAM SILK</text>
+</svg>`;
+}
+
+// ═══════════════════════════════════════
+// CART STATE
+// ═══════════════════════════════════════
+let cart = [];
+let currentProduct = null;
+let selectedColor = 0;
+let selectedSize = 0;
+let qty = 1;
+let checkoutStep = 1;
+
+function addToCart(productId, color, size, quantity) {
+  const p = products.find(x=>x.id===productId);
+  const existing = cart.find(c=>c.id===productId && c.color===color && c.size===size);
+  if(existing) { existing.qty += quantity; }
+  else { cart.push({id:productId, name:p.name, price:p.price, color:p.colorNames[color]||'Default', size:p.sizes[size]||'6m', qty:quantity, gradient:p.gradient, accentColor:p.accentColor}); }
+  updateCartUI();
+  showToast(`✦ <span class="t-gold">${p.name}</span> added to cart`);
+}
+
+function updateCartUI() {
+  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const count = cart.reduce((s,c)=>s+c.qty,0);
+  document.getElementById('cartCount').textContent = count;
+  const itemsEl = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  if(cart.length===0) {
+    itemsEl.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛍️</div><h4>Your cart is empty</h4><p>Add some beautiful sarees to get started.</p></div>`;
+    footer.style.display='none';
+  } else {
+    itemsEl.innerHTML = cart.map((item,i)=>`
+      <div class="cart-item">
+        <div class="cart-item-img">${getSareeSVG(products.find(p=>p.id===item.id))}</div>
+        <div class="cart-item-details">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-variant">${item.color} · ${item.size}</div>
+          <div class="cart-item-row">
+            <div class="cart-item-price">₹${(item.price*item.qty).toLocaleString('en-IN')}</div>
+            <div class="cart-item-qty">
+              <button class="ciq-btn" onclick="updateCartQty(${i},-1)">−</button>
+              <span>${item.qty}</span>
+              <button class="ciq-btn" onclick="updateCartQty(${i},1)">+</button>
+            </div>
+          </div>
+          <button class="cart-item-remove" onclick="removeCartItem(${i})">Remove</button>
+        </div>
+      </div>`).join('');
+    document.getElementById('cartSubtotal').textContent = `₹${total.toLocaleString('en-IN')}`;
+    document.getElementById('cartTotal').textContent = `₹${total.toLocaleString('en-IN')}`;
+    footer.style.display='block';
+  }
+}
+
+function updateCartQty(idx,delta) {
+  cart[idx].qty = Math.max(1,cart[idx].qty+delta);
+  updateCartUI();
+}
+function removeCartItem(idx) {
+  cart.splice(idx,1);
+  updateCartUI();
+}
+function toggleCart() {
+  document.getElementById('cartDrawer').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('open');
+}
+
+// ═══════════════════════════════════════
+// PAGES
+// ═══════════════════════════════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  window.scrollTo(0,0);
+  if(name==='collections') renderAllProducts();
+}
+
+// ═══════════════════════════════════════
+// PRODUCTS RENDER
+// ═══════════════════════════════════════
+function renderProductCard(p) {
+  return `<div class="product-card" onclick="openProduct(${p.id})">
+    <div class="product-image">${getSareeSVG(p)}</div>
+    ${p.badge ? `<div class="product-badge badge-${p.badge}">${p.badgeText}</div>` : ''}
+    <button class="product-wishlist" id="wl-${p.id}" onclick="event.stopPropagation();toggleWishlist(${p.id})">♡</button>
+    <div class="product-info">
+      <div class="product-name">${p.name}</div>
+      <div class="product-type">${p.subtitle}</div>
+      <div class="product-footer">
+        <div class="product-price">₹${p.price.toLocaleString('en-IN')}<span>₹${p.originalPrice.toLocaleString('en-IN')}</span></div>
+        <div class="product-colors">${p.colors.slice(0,4).map(c=>`<div class="color-dot" style="background:${c}"></div>`).join('')}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderFeatured() {
+  const featured = products.slice(0,4);
+  document.getElementById('featuredGrid').innerHTML = featured.map(renderProductCard).join('');
+}
+
+function renderAllProducts(filter='all') {
+  const filtered = filter==='all' ? products : products.filter(p=>p.type===filter);
+  document.getElementById('allProductsGrid').innerHTML = filtered.map(renderProductCard).join('');
+}
+
+function filterProducts(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAllProducts(type);
+}
+
+function toggleWishlist(id) {
+  const btn = document.getElementById('wl-'+id);
+  btn.classList.toggle('liked');
+  btn.textContent = btn.classList.contains('liked') ? '♥' : '♡';
+  showToast(btn.classList.contains('liked') ? '♥ Added to wishlist' : 'Removed from wishlist');
+}
+
+// ═══════════════════════════════════════
+// PRODUCT DETAIL
+// ═══════════════════════════════════════
+function openProduct(id) {
+  currentProduct = products.find(p=>p.id===id);
+  selectedColor = 0; selectedSize = 0; qty = 1;
+  document.getElementById('breadcrumbName').textContent = currentProduct.name;
+  renderDetailGallery();
+  renderDetailInfo();
+  showPage('product');
+}
+
+function renderDetailGallery() {
+  const p = currentProduct;
+  document.getElementById('detailGalleryInner').innerHTML = getSareeSVG(p, true);
+  // Thumb strip with color variants
+  document.getElementById('thumbStrip').innerHTML = p.colors.slice(0,4).map((c,i)=>`
+    <div class="thumb ${i===0?'active':''}" onclick="selectDetailColor(${i})" id="thumb-${i}" style="background:${c};opacity:0.9;border-color:${i===0?'var(--gold)':'transparent'}"></div>
+  `).join('');
+}
+
+function selectDetailColor(idx) {
+  selectedColor = idx;
+  document.querySelectorAll('.thumb').forEach((t,i)=>{
+    t.classList.toggle('active',i===idx);
+    t.style.borderColor = i===idx ? 'var(--gold)':'transparent';
+  });
+  document.querySelectorAll('.color-option').forEach((o,i)=>o.classList.toggle('selected',i===idx));
+}
+
+function renderDetailInfo() {
+  const p = currentProduct;
+  document.getElementById('detailInfo').innerHTML = `
+    <div class="detail-brand">kanjeevaram · ${p.subtitle}</div>
+    <h1 class="detail-title">${p.name}</h1>
+    <p class="detail-subtitle">${p.subtitle} — Pure Kanjeevaram Silk</p>
+    <div class="detail-rating">
+      <div class="stars">${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5-Math.floor(p.rating))}</div>
+      <span style="font-size:.9rem;color:var(--text);font-weight:500">${p.rating}</span>
+      <span class="rating-count">(${p.reviews} reviews)</span>
+    </div>
+    <div class="detail-price">₹${p.price.toLocaleString('en-IN')}</div>
+    <div class="detail-price-note">Inclusive of all taxes · Free shipping · 7-day returns</div>
+    <div style="display:inline-flex;align-items:center;gap:.6rem;background:rgba(26,90,26,.08);border:1px solid rgba(26,90,26,.2);padding:.4rem 1rem;border-radius:20px;margin-bottom:1.5rem">
+      <span style="font-size:.8rem;color:#2E7D32">✓ In Stock</span>
+    </div>
+    <div class="detail-divider"></div>
+    <div class="option-label">Select Colour: <span style="color:var(--text-muted);font-weight:300;text-transform:none;letter-spacing:0">${p.colorNames[selectedColor]}</span></div>
+    <div class="color-options">
+      ${p.colors.map((c,i)=>`<div class="color-option ${i===0?'selected':''}" style="background:${c}" onclick="selectDetailColor(${i})" title="${p.colorNames[i]}"></div>`).join('')}
+    </div>
+    <div class="option-label">Select Length</div>
+    <div class="size-options">
+      ${p.sizes.map((s,i)=>`<button class="size-btn ${i===0?'active':''}" onclick="selectSize(${i},this)">${s}</button>`).join('')}
+    </div>
+    <div class="qty-row">
+      <span class="option-label" style="margin-bottom:0">Quantity</span>
+      <div class="qty-control">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <span class="qty-val" id="qtyDisplay">1</span>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+    <button class="add-to-cart-btn" onclick="addToCart(${p.id},selectedColor,selectedSize,qty)">✦ Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow(${p.id})">Buy Now</button>
+    <div class="detail-divider"></div>
+    <ul class="detail-features">
+      ${p.features.map(f=>`<li>${f}</li>`).join('')}
+    </ul>
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><h4>Description</h4><span class="accordion-icon">+</span></div>
+        <div class="accordion-body">${p.desc}</div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><h4>Care Instructions</h4><span class="accordion-icon">+</span></div>
+        <div class="accordion-body">${p.care}</div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><h4>Delivery & Returns</h4><span class="accordion-icon">+</span></div>
+        <div class="accordion-body">${p.delivery}</div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><h4>Authenticity</h4><span class="accordion-icon">+</span></div>
+        <div class="accordion-body">Every kanjeevaram saree comes with Silk Mark certification, a GI (Geographical Indication) tag for Kanchipuram Silk, and a handwritten note from the master weaver who created your saree.</div>
+      </div>
+    </div>`;
+}
+
+function selectSize(idx, btn) {
+  selectedSize = idx;
+  document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function changeQty(delta) {
+  qty = Math.max(1, qty+delta);
+  document.getElementById('qtyDisplay').textContent = qty;
+}
+function toggleAccordion(header) {
+  const item = header.parentElement;
+  item.classList.toggle('open');
+}
+function buyNow(id) {
+  addToCart(id,selectedColor,selectedSize,qty);
+  toggleCart();
+  setTimeout(()=>{ toggleCart(); openCheckout(); },400);
+}
+
+// ═══════════════════════════════════════
+// CHECKOUT
+// ═══════════════════════════════════════
+function openCheckout() {
+  if(cart.length===0) { showToast('Your cart is empty!'); return; }
+  checkoutStep=1;
+  document.getElementById('checkoutOverlay').classList.add('open');
+  renderCheckoutStep();
+}
+function closeCheckout() {
+  document.getElementById('checkoutOverlay').classList.remove('open');
+}
+function renderCheckoutStep() {
+  document.querySelectorAll('.cs-step').forEach((s,i)=>{
+    s.classList.toggle('active',i+1===checkoutStep);
+    s.classList.toggle('done',i+1<checkoutStep);
+  });
+  const body = document.getElementById('checkoutBody');
+  if(checkoutStep===1) {
+    body.innerHTML=`<h3 class="checkout-section-title">Personal Details</h3>
+      <div class="form-row"><div class="form-group"><label>First Name</label><input placeholder="Priya" id="co-fn"></div><div class="form-group"><label>Last Name</label><input placeholder="Sharma" id="co-ln"></div></div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="priya@email.com" id="co-em"></div>
+      <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 98765 43210" id="co-ph"></div>
+      <button class="checkout-next" onclick="nextCheckout()">Continue to Shipping →</button>`;
+  } else if(checkoutStep===2) {
+    body.innerHTML=`<h3 class="checkout-section-title">Shipping Address</h3>
+      <div class="form-group"><label>Address Line 1</label><input placeholder="Street, Building name" id="co-a1"></div>
+      <div class="form-group"><label>Address Line 2</label><input placeholder="Area, Locality (optional)" id="co-a2"></div>
+      <div class="form-row"><div class="form-group"><label>City</label><input placeholder="Chennai" id="co-ct"></div><div class="form-group"><label>Pincode</label><input placeholder="600001" id="co-pc"></div></div>
+      <div class="form-group"><label>State</label><select id="co-st"><option>Tamil Nadu</option><option>Karnataka</option><option>Andhra Pradesh</option><option>Telangana</option><option>Kerala</option><option>Maharashtra</option><option>Delhi</option><option>Other</option></select></div>
+      <button class="checkout-next" onclick="nextCheckout()">Continue to Payment →</button>`;
+  } else if(checkoutStep===3) {
+    body.innerHTML=`<h3 class="checkout-section-title">Payment Method</h3>
+      <div class="payment-methods">
+        <div class="pay-method selected" onclick="selectPayment(this)">💳 Card</div>
+        <div class="pay-method" onclick="selectPayment(this)">📱 UPI</div>
+        <div class="pay-method" onclick="selectPayment(this)">🏦 Net Banking</div>
+        <div class="pay-method" onclick="selectPayment(this)">📦 COD</div>
+        <div class="pay-method" onclick="selectPayment(this)">💰 Wallets</div>
+        <div class="pay-method" onclick="selectPayment(this)">🔄 EMI</div>
+      </div>
+      <div class="form-group"><label>Card Number</label><input placeholder="4242 4242 4242 4242" maxlength="19"></div>
+      <div class="form-row"><div class="form-group"><label>Expiry</label><input placeholder="MM/YY"></div><div class="form-group"><label>CVV</label><input type="password" placeholder="•••" maxlength="3"></div></div>
+      <div class="form-group"><label>Name on Card</label><input placeholder="PRIYA SHARMA"></div>
+      <button class="checkout-next" onclick="nextCheckout()">Review Order →</button>`;
+  } else if(checkoutStep===4) {
+    const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
+    body.innerHTML=`<h3 class="checkout-section-title">Order Review</h3>
+      ${cart.map(c=>`<div class="order-summary-item"><span class="osi-name">${c.name} × ${c.qty} <span style="color:var(--text-muted);font-size:.8rem">(${c.size})</span></span><span class="osi-price">₹${(c.price*c.qty).toLocaleString('en-IN')}</span></div>`).join('')}
+      <div class="order-summary-item"><span class="osi-name">Shipping</span><span class="osi-price" style="color:#2E7D32">FREE</span></div>
+      <div class="order-total-row"><span>Total Amount</span><span>₹${total.toLocaleString('en-IN')}</span></div>
+      <button class="checkout-next" style="background:linear-gradient(135deg,#1A5C2A,#2E7D32)" onclick="placeOrder()">✦ Place Order — ₹${total.toLocaleString('en-IN')}</button>`;
+  } else if(checkoutStep===5) {
+    const orderNum = 'ATH'+Math.floor(100000+Math.random()*900000);
+    body.innerHTML=`<div class="success-screen">
+      <div class="success-icon">🎉</div>
+      <h3>Order Placed!</h3>
+      <p>Thank you for choosing kanjeevaram. Your Kanjeevaram saree will be carefully packaged and dispatched within 3 business days.</p>
+      <p>A confirmation email has been sent to your registered email address.</p>
+      <div class="order-num">Order No: ${orderNum}</div>
+      <br>
+      <button class="checkout-next" onclick="closeCheckout();showPage('home')" style="max-width:280px;margin:1.5rem auto 0">Continue Shopping</button>
+    </div>`;
+    cart=[];
+    updateCartUI();
+  }
+}
+function nextCheckout() { checkoutStep++; renderCheckoutStep(); }
+function placeOrder() { checkoutStep=5; renderCheckoutStep(); }
+function selectPayment(el) { document.querySelectorAll('.pay-method').forEach(e=>e.classList.remove('selected')); el.classList.add('selected'); }
+
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+function subscribeNewsletter() {
+  const em = document.getElementById('newsletterEmail').value;
+  if(!em || !em.includes('@')) { showToast('Please enter a valid email'); return; }
+  showToast(`✦ <span class="t-gold">Welcome</span> to the kanjeevaram Circle!`);
+  document.getElementById('newsletterEmail').value='';
+}
+function submitContactForm() {
+  document.getElementById('contactFormWrap').style.display='none';
+  document.getElementById('formSuccess').style.display='block';
+}
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+  document.getElementById('mobileOverlay').classList.toggle('show');
+}
+
+// NAV scroll effect
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY>60);
+});
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+window.addEventListener('load',()=>{
+  renderFeatured();
+  renderAllProducts();
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('fade-out');
+    setTimeout(()=>document.getElementById('loader').style.display='none',700);
+  },1500);
+});
+</script>
+</body>
+</html>
